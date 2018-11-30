@@ -1,0 +1,8 @@
+ec2_key_name: awsTerraform0607
+ec2_region: us-east-2
+ec2_instance_type: t2.micro
+ec2_image: ami-5e8bb23b
+ec2_count: 1
+ec2_wait: yes
+ec2_groups: ['SshHttpHttpsRDPiCMP', 'mysql1']
+ec2_tag_name: AnsiInst1

@@ -1,0 +1,40 @@
+---
+- hosts: mylocal
+  connection: local
+  vars_files:
+    - vars/main.yml
+  gather_facts: False
+  
+  
+  tasks:
+   - ping:
+   - debug:
+       msg: "Value of Count {{ec2_count}} Number of instances"
+
+   - ec2:
+       key_name: '{{ec2_key_name}}'
+       region: '{{ec2_region}}'
+       instance_type: '{{ec2_instance_type}}'
+       image: '{{ec2_image}}'
+       count: '{{ec2_count}}'
+       wait: '{{ec2_wait}}'
+       groups: '{{ec2_groups}}'
+       instance_tags:
+         Name: '{{ec2_tag_name}}'
+       user_data: "{{ lookup('template', 'templates/user_data.yml') }}"
+     register:  instance_details
+
+   - debug: var=item
+     with_items: "{{instance_details.instances}}"
+
+   - name: group name in the hosts file
+     lineinfile:
+       path: /home/ubuntu/ansiAws/hosts
+       line: '[mysqlNodes]'
+
+   - name: add ip address of the instances generated to the hosts file
+     lineinfile:
+       path: /home/ubuntu/ansiAws/hosts
+       line: '[mysql]'
+       line: "{{item.private_ip}}"
+     with_items:  "{{instance_details.instances}}" 
