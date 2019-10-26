@@ -16,15 +16,18 @@ resource "aws_instance" "muniServers" {
 
   user_data = "${file("user-data.txt")}"
 
-#output "public_ip" {
-#  value = "${aws_instance.example.public_ip}"
-#}
-#provisioner "local-exec" {
-#    command = "apt install python -y && apt install python-apt -y"
-#}
 
 }
+
 output "public_ip" {
 #value = "${aws_instance.muniServers.public_ip}"
   value = "${formatlist("%v", aws_instance.muniServers.*.public_ip)}"
 }
+
+resource "null_resource" "myPublicIps" {
+count = "${var.instance_count}"
+provisioner "local-exec" {
+      command = "echo '${element(aws_instance.muniServers.*.public_ip, count.index)}' >> hosts1"
+}
+}
+
