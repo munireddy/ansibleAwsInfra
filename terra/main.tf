@@ -2,7 +2,7 @@ provider "aws" {
    region = "us-east-2"
 }
 
-resource "aws_instance" "example" {
+resource "aws_instance" "muniServers" {
   #ami = "ami-5e8bb23b"
   ami = "${lookup(var.amiid, var.region)}"
   instance_type = "t2.micro"
@@ -25,6 +25,6 @@ resource "aws_instance" "example" {
 
 }
 output "public_ip" {
-#value = "${aws_instance.example.public_ip}"
-  value = "${formatlist("%v", aws_instance.example.*.public_ip)}"
+#value = "${aws_instance.muniServers.public_ip}"
+  value = "${formatlist("%v", aws_instance.muniServers.*.public_ip)}"
 }
