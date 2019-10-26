@@ -6,10 +6,10 @@ resource "aws_instance" "example" {
   #ami = "ami-5e8bb23b"
   ami = "${lookup(var.amiid, var.region)}"
   instance_type = "t2.micro"
-  vpc_security_group_ids = ["sg-3090d058"]
-
+  count = "${var.instance_count}"
+  vpc_security_group_ids = ["${var.security_group}"]
   tags {
-    Name = "terraformInst1"
+    Name = "terraformInst--${count.index + 1}"
   }
 
   key_name = "${var.key_name}"
@@ -25,5 +25,6 @@ resource "aws_instance" "example" {
 
 }
 output "public_ip" {
-  value = "${aws_instance.example.public_ip}"
+#value = "${aws_instance.example.public_ip}"
+  value = "${formatlist("%v", aws_instance.example.*.public_ip)}"
 }

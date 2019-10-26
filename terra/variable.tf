@@ -11,7 +11,15 @@ variable "amiid" {
   description = "You may added more regions if you want"
 }
 
+variable "instance_count" {
+  default = "2"
+}
 variable "key_name" {
   default = "awsTerraform0607"
-  description = "the ssh key to use in the EC2 machines"
+  description = "the ssh key to used for the EC2 instance"
+}
+
+variable "security_group" {
+  default = "sg-3090d058"
+  description = "Security groups for the instance"
 }
