@@ -13,9 +13,20 @@ resource "aws_instance" "muniServers" {
   }
 
   key_name = "${var.key_name}"
+  
+  provisioner "file" {
+    source      = "/home/muni2/.ssh/id_rsa.pub"
+    destination = "/tmp/id_rsa.pub"
+  }
 
   user_data = "${file("user-data.txt")}"
 
+connection {
+    type     = "ssh"
+    user     = "ubuntu"
+    password = ""
+    private_key = "${file("~/awsTerraform0607.pem")}"
+  }
 
 }
 
