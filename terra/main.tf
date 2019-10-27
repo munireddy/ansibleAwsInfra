@@ -5,7 +5,7 @@ provider "aws" {
 terraform {
   backend "s3" {
     bucket = "munitestbucket1"
-    key    = "terraform.tfstate"
+    key    = "tfstatefiles/terraform.tfstate"
     region = "us-east-2"
   }
 }
