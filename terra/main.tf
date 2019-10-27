@@ -2,6 +2,14 @@ provider "aws" {
    region = "us-east-2"
 }
 
+terraform {
+  backend "s3" {
+    bucket = "munitestbucket1"
+    key    = "terraform.tfstate"
+    region = "us-east-2"
+  }
+}
+
 resource "aws_instance" "muniServers" {
   #ami = "ami-5e8bb23b"
   ami = "${lookup(var.amiid, var.region)}"
