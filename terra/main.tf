@@ -17,7 +17,7 @@ resource "aws_instance" "muniServers" {
   count = "${var.instance_count}"
   vpc_security_group_ids = ["${var.security_group}"]
   tags {
-    Name = "terraformInst--${count.index + 1}"
+    Name = "terraformInst12--${count.index + 1}"
   }
 
   key_name = "${var.key_name}"
